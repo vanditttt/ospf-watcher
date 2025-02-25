@@ -1,7 +1,6 @@
 # OSPF Topology Watcher
 OSPF Watcher is a monitoring tool of OSPF topology changes for network engineers. It works via passively listening to OSPF control plane messages through a specially established OSPF adjacency between OSPF Watcher and one of the network device. The tool logs OSPF events and/or export by Logstash to **Elastic Stack (ELK)**, **Zabbix**, **WebHooks** and **Topolograph** monitoring dashboard for keeping the history of events, alerting, instant notification. Components of the solution are wrapped into containers, so it can be increadebly fast to start it. The only thing is needed to configure manually - is GRE tunnel setup on the Linux host. 
-> **Note**  
-> Upvote in [issues/12](https://github.com/Vadims06/ospfwatcher/issues/12) if you are interested in tracking OSPF topology changes via BGP-LS.     
+  
 ## Logged topology changes:
 * OSPF neighbor adjacency Up/Down
 * OSPF link cost changes
@@ -11,7 +10,6 @@ OSPF Watcher is a monitoring tool of OSPF topology changes for network engineers
 ![](docs/ospfwatcher_plus_topolograph_architecture_v3_xdp_rules.png)  
 Each Watcher instance maintains all routes and updates within an isolated network namespace. This isolation ensures efficient monitoring without interference and prevent route leaks.
 #### Listen only mode
-The FRR container is isolated in an individual network namespace and the **XDP OSPF filter** inspects all outgoing OSPF advertisements. It checks if FRR instance advertises only locally connected network (assigned on GRE tunnel) and no more. If it advertises multiple networks, OSPF Database description (DB) or LSUpdate will be dropped. It prevents the network from populating by unexpected network prefixes.  
 > **Note**  
 > ospfwatcher:v1.1 is compatible with [topolograph:v2.7](https://github.com/Vadims06/topolograph/releases/tag/v2.27), it means that OSPF network changes can be shown on the network graph.
 ### Functional Role
@@ -400,16 +398,3 @@ Add your changes in `./logstash/pipeline` file, stop logstash process via CTRL+C
 #### scapy
 2.5.0 works, 2.6.0 raises an exception
 
-### Topolograph suite
-* OSPF Watcher [link](https://github.com/Vadims06/ospfwatcher)
-* IS-IS Watcher [link](https://github.com/Vadims06/isiswatcher)
-* Topolograph [link](https://github.com/Vadims06/topolograph)
-* Topolograph in docker [link](https://github.com/Vadims06/topolograph-docker)
-
-### Community & feedback
-* https://t.me/topolograph
-* admin at topolograph.com
-
-### License
- GPL-3.0 license
- Elastic search was used with Basic ELK license.  
